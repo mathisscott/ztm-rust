@@ -12,6 +12,11 @@ fn sum(a: i32, b: i32) -> i32 {
     a + b
 }
 
+fn display_sum(sum: i32) {
+    println!("sum is... {:?}", sum);
+}
+
 fn main() {
-    println!("sum is... {:?}", sum(40, 1));
+    let result = sum(40, 1);
+    display_sum(result);
 }
