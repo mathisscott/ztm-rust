@@ -10,4 +10,20 @@
 // * Use a match expression to determine which message to display
 // * Use an underscore (_) to match on any value
 
-fn main() {}
+fn one_two_three_other(n: u32) -> &'static str {
+    match n {
+        1 => "one",
+        2 => "two",
+        3 => "three",
+        _ => "other",
+    }
+}
+
+fn main() {
+    let my_num = one_two_three_other(3);
+
+    println!("my number is... {}",one_two_three_other(1));
+    println!("my number is... {}",one_two_three_other(2));
+    println!("my number is... {}",my_num);
+    println!("my number is... {}",one_two_three_other(100));
+}
