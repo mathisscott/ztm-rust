@@ -10,4 +10,14 @@
 // * Print the variable within the while loop
 // * Do not use break to exit the loop
 
-fn main() {}
+fn main() {
+    let mut n: i32 = 5;
+
+    while n > -1 {
+        match n {
+            0 => println!("done"),
+            _ => println!("{:?}", n),
+        }
+        n = n - 1;
+    }
+}
