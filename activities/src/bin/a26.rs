@@ -7,5 +7,12 @@
 // * Use the `chrono` crate to work with time
 // * (OPTIONAL) Read the documentation section `Formatting and Parsing`
 //   for examples on how to create custom time formats
+use chrono::prelude::*;
 
-fn main() {}
+fn main() {
+    let now: DateTime<Local> = Local::now();
+    let formatted_now = now.format("%a %b %e %Y").to_string();
+
+    println!("{:?}", now);
+    println!("{:?}", formatted_now);
+}

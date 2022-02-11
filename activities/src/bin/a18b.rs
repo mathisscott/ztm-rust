@@ -22,4 +22,50 @@
 // * Print whether the employee may access the building
 //   * Must use a function that utilizes the question mark operator to do this
 
-fn main() {}
+enum Role {
+    Maintenance,
+    Management,
+    Marketing,
+    LineSupervisor,
+    Kitchen,
+    Technicians,
+}
+
+enum Status {
+    Active,
+    Terminated,
+}
+
+struct Employee {
+    role: Role,
+    status: Status
+}
+
+fn allow_access(emp: &Employee) -> Result<(), String> {
+    match emp.status {
+        Status::Terminated => return Err("employeed has been terminated".to_owned()), // EARLY RETURN!!!
+        _ => (),
+    }
+
+    match emp.role {
+        Role::Maintenance => Ok(()),
+        Role::Management => Ok(()),
+        Role::Marketing => Ok(()),
+        _ => Err("employee does not have access".to_owned()),
+    }
+}
+
+fn print_access(emp: &Employee) -> Result<(), String> {
+    let _access_attempt = allow_access(emp)?;
+    println!("employee allowed in!");
+    Ok(())
+}
+
+fn main() {
+    let emp = Employee { role: Role::Management, status: Status::Terminated };
+
+    match print_access(&emp) {
+        Err(e) => println!("access denied: {:?}", e),
+        _ => ()
+    }
+}

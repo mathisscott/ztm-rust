@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 // Topic: HashMap
 //
 // Requirements:
@@ -13,4 +15,27 @@
 // Notes:
 // * Use a HashMap for the furniture store stock
 
-fn main() {}
+fn main() {
+    let mut inventory = HashMap::new();
+    let mut total_inv = 0;
+ 
+    inventory.insert("Chair", 5);
+    inventory.insert("Bed", 3);
+    inventory.insert("Endtable", 1);
+    inventory.insert("Table", 2);
+    inventory.insert("Couch", 0);
+
+    for (item, qty) in inventory.iter() {
+        if qty == &1 {
+            println!("{:?} {:?} in stock!", qty, item);
+            total_inv = total_inv + 1;
+        } else if qty > &1 {
+            println!("{:?} {:?}s in stock!", qty, item);
+            total_inv = total_inv + qty;
+        } else {
+            println!("{:?} out of stock", item);
+        }
+    }
+
+    println!("Total items: {:?}", total_inv);
+}
