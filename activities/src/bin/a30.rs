@@ -15,7 +15,44 @@
 // * It is not necessary to have data fields or function implementations
 //   for the vehicle bodies/colors
 
-trait Body {}
+#[derive(Debug)]
+struct Vehicle<B: Body, C: Color> {
+    body: B,
+    color: C,
+}
+
+impl<B: Body, C: Color> Vehicle<B, C> {
+    pub fn new(body: B, color: C) -> Self {
+        Self {
+            body,
+            color,
+        }
+    }
+}
+
+#[derive(Debug)]
+struct Car;
+impl Body for Car {}
+
+#[derive(Debug)]
+struct Truck;
+impl Body for Truck {}
+
+trait Body {} // <- these empty traits are called "marker traits"
 trait Color {}
 
-fn main() {}
+#[derive(Debug)]
+struct Red;
+impl Color for Red {}
+
+#[derive(Debug)]
+struct White;
+impl Color for White {}
+
+fn main() {
+    let white_truck = Vehicle::new(Truck, White);
+    let red_car = Vehicle::new(Car, Red);
+
+    println!("{white_truck:?}");
+    println!("{red_car:?}");
+}

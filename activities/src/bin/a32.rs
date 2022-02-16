@@ -12,4 +12,32 @@
 
 const MOCK_DATA: &'static str = include_str!("mock-data.csv");
 
-fn main() {}
+struct Names<'a> {
+    inner: Vec<&'a str>,
+}
+
+struct Titles<'a> {
+    inner: Vec<&'a str>,
+}
+
+fn main() {
+    let lines: Vec<_> = MOCK_DATA.split('\n').skip(1).collect();
+    let names: Vec<_> = lines
+        .iter()
+        .filter_map(|line| line.split(',').nth(1))
+        .collect();
+    let names = Names { inner: names };
+
+    let titles: Vec<_> = lines
+        .iter()
+        .filter_map(|line| line.split(',').nth(4))
+        .collect();
+    let titles = Titles { inner: titles };
+
+    let data = names.inner.iter().zip(titles.inner.iter()); // <- makes two iterators and turns them into a tuple
+
+    for (name, title) in data.take(8) {
+        println!("name: {name:?}; title: {title:?}");
+    }
+
+}
