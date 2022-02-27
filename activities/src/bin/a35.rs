@@ -24,7 +24,7 @@
 #[derive(Debug)]
 enum TreasureItem {
     Gold,
-    SuperPower,
+    Silver,
 }
 
 #[derive(Debug)]
@@ -54,4 +54,33 @@ enum Tile {
     Wood,
 }
 
-fn main() {}
+fn print_tile(tile: Tile) -> () {
+    use Tile::*; // import all tile variants
+
+    match tile {
+        Brick(brick @ BrickStyle::Gray | brick @ BrickStyle::Red) => println!("The brick color is {brick:?}"),
+        Brick(other) => println!("{other:?} brick"),
+        Dirt | Grass | Sand => println!("ground tile"),
+        Treasure(TreasureChest { content: TreasureItem::Gold, amount }) if amount >= 100 => println!("Lots of gold"),
+        Water(pressure) if pressure.0 < 10 => println!("Water pressure level: {:?}", pressure.0),
+        Water(_) => println!("High water pressure!"),
+        t => println!("  • Nope -- {t:?}"),
+    }
+}
+
+fn main() {
+    use Tile::*; // import all tile variants
+
+    let gold = Treasure(TreasureChest { content: TreasureItem::Gold, amount: 110 });
+    let silver = Treasure(TreasureChest { content: TreasureItem::Silver, amount: 500 });
+    let water = Water(Pressure(5));
+    let brick = Brick(BrickStyle::Dungeon);
+    let other = Dirt;
+
+    print_tile(gold);
+    print_tile(silver);
+    print_tile(water);
+    print_tile(brick);
+    print_tile(other);
+
+}

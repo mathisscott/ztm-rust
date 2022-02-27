@@ -16,5 +16,14 @@ fn data() -> &'static [u64] {
 
 fn main() {
     // `stream` is an iterator of Option<&[u64]>
-    let mut stream = data().chunks(2);
+    let stream = data().chunks(2);
+
+    for chunk in stream {
+        match chunk {
+            [a, b] => println!("[{}, {}] = {}", a, b, a + b),
+            [a] => println!("Unpaired value: {}", a),
+            [] => println!("Data stream complete"),
+            [..] => unreachable!("chunk size too big"), // <- tells rust this code should never get executed
+        }
+    }
 }
