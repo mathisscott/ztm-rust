@@ -12,3 +12,5 @@ path = "src/lib/lib.rs"
 [dependencies]
 chrono = "0.4"
 thiserror = "1.0.30"
+crossbeam-channel = "*"
+colored = "*"

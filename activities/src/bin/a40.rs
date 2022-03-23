@@ -21,8 +21,85 @@
 // * Test your program by changing the vehicle status from both a storefront
 //   and from corporate
 
-struct Corporate;
+use std::cell::RefCell;
+use std::rc::Rc;
 
-struct StoreFront;
+#[derive(Debug)]
+enum Vehicle {
+    Car,
+    Truck,
+}
+
+#[derive(Debug, Hash, PartialOrd, PartialEq)]
+enum Status {
+    Available,
+    Unavailable,
+    Maintenance,
+    Rented,
+}
+
+#[derive(Debug)]
+struct Rental {
+    vehicle: Vehicle,
+    vin: String,
+    status: Status,
+}
+
+#[derive(Debug)]
+struct Corporate(Rentals);
+
+#[derive(Debug)]
+struct StoreFront(Rentals);
+
+// impl StoreFront;
+// rent out vehicles
+
+type Rentals = Rc<RefCell<Vec<Rental>>>;
 
 fn main() {}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn update_status() {
+        let vehicles = vec![
+            Rental {
+                vehicle: Vehicle::Car,
+                vin: "1cf456".to_owned(),
+                status: Status::Available,
+            },
+            Rental {
+                vehicle: Vehicle::Truck,
+                vin: "2dg567".to_owned(),
+                status: Status::Maintenance,
+            },
+        ];
+
+        let vehicles = Rc::new(RefCell::new(vehicles));
+        let corp = Corporate(Rc::clone(&vehicles)); // this is making copies of the POINTER
+        let store = StoreFront(Rc::clone(&vehicles));
+
+        {
+            let mut rentals = store.0.borrow_mut();
+            if let Some(car) = rentals.get_mut(0) {
+                assert_eq!(car.status, Status::Available);
+                car.status = Status::Rented;
+            }
+        }
+
+        {
+            let mut rentals = corp.0.borrow_mut();
+            if let Some(car) = rentals.get_mut(0) {
+                assert_eq!(car.status, Status::Rented);
+                car.status = Status::Available;
+            }
+        }
+
+        let rentals = store.0.borrow();
+        if let Some(car) = rentals.get(0) {
+            assert_eq!(car.status, Status::Available);
+        }
+}
+}
