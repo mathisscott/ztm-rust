@@ -26,7 +26,7 @@ pub enum ClipError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Clip {
     pub clip_id: field::ClipId,
-    pub shortcode: field::Shortcode,
+    pub shortcode: field::ShortCode,
     pub content: field::Content,
     pub title: field::Title,
     pub posted: field::Posted,
