@@ -24,7 +24,7 @@ impl Password {
         self.0
     }
 
-    pub fn has_password(self) -> bool {
+    pub fn has_password(&self) -> bool {
         self.0.is_some()
     }
 }
