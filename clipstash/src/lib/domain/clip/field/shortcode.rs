@@ -1,9 +1,10 @@
 use crate::domain::clip::ClipError;
+use rocket::{UriDisplayPath, UriDisplayQuery};
 use serde::{Deserialize, Serialize};
 use std::str::FromStr;
 use derive_more::From;
 
-#[derive(Clone, Debug, Deserialize, From, Serialize)]
+#[derive(Clone, Debug, Deserialize, From, Serialize, UriDisplayPath, UriDisplayQuery)]
 pub struct ShortCode(String);
 
 impl ShortCode {
@@ -51,6 +52,16 @@ impl From<ShortCode> for String {
 impl From<&str> for ShortCode {
     fn from(s: &str) -> Self {
         ShortCode(s.to_owned())
+    }
+}
+
+use rocket::request::FromParam;
+
+impl<'r> FromParam<'r> for ShortCode {
+    type Error = &'r str;
+
+    fn from_param(param: &'r str) -> Result<Self, Self::Error> {
+        Ok(ShortCode::from(param))
     }
 }
 
