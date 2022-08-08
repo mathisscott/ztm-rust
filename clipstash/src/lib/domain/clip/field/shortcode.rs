@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use std::str::FromStr;
 use derive_more::From;
 
-#[derive(Clone, Debug, Deserialize, From, Serialize, UriDisplayPath, UriDisplayQuery)]
+#[derive(Clone, Debug, Deserialize, From, Serialize, UriDisplayPath, UriDisplayQuery, Hash, PartialEq, Eq)]
 pub struct ShortCode(String);
 
 impl ShortCode {
